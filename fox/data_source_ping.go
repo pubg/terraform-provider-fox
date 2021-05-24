@@ -28,9 +28,13 @@ func dataSourcePingRead(ctx context.Context, d *schema.ResourceData, m interface
 	var diags diag.Diagnostics
 	config := m.(common.Config)
 
+	url, err := common.GetApiUrl(config.Address, "ping")
+	if err != nil {
+		return diag.FromErr(err)
+	}
 	status, respBody, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodGet,
-		Url:        common.GetApiUrl(config.Address, "ping"),
+		Url:        url,
 		TimeoutSec: 10,
 	})
 	if err != nil {

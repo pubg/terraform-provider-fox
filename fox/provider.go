@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"log"
 	"terraform-provider-fox/pkg/common"
 )
 
@@ -36,5 +37,6 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	config := common.Config{
 		Address: address,
 	}
+	log.Printf("[DEBUG] Use Fox address (%s)\n", address)
 	return config, diags
 }

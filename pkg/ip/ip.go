@@ -59,9 +59,14 @@ func GetIpInfo(config common.Config, id string, diagsPtr *diag.Diagnostics) (*Ip
 	// request api
 	apiPath := fmt.Sprintf("ip-envs/%s", id)
 	headers := getHeaders("")
+	url, err := common.GetApiUrl(config.Address, apiPath)
+	if err != nil {
+		*diagsPtr = append(*diagsPtr, diag.FromErr(err)[0])
+		return nil, err
+	}
 	status, respBody, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodGet,
-		Url:        common.GetApiUrl(config.Address, apiPath),
+		Url:        url,
 		TimeoutSec: 10,
 		Headers:    headers,
 	})
@@ -101,9 +106,14 @@ func GetIpInfoGroup(config common.Config, gId string, diagsPtr *diag.Diagnostics
 	// request api
 	apiPath := fmt.Sprintf("ip-groups/%s", gId)
 	headers := getHeaders("")
+	url, err := common.GetApiUrl(config.Address, apiPath)
+	if err != nil {
+		*diagsPtr = append(*diagsPtr, diag.FromErr(err)[0])
+		return nil, err
+	}
 	status, respBody, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodGet,
-		Url:        common.GetApiUrl(config.Address, apiPath),
+		Url:        url,
 		TimeoutSec: 10,
 		Headers:    headers,
 	})
@@ -143,9 +153,14 @@ func GetIpInfoAll(config common.Config, diagsPtr *diag.Diagnostics) (*[]IpInfo, 
 	// request api
 	apiPath := fmt.Sprintf("ip-all")
 	headers := getHeaders("")
+	url, err := common.GetApiUrl(config.Address, apiPath)
+	if err != nil {
+		*diagsPtr = append(*diagsPtr, diag.FromErr(err)[0])
+		return nil, err
+	}
 	status, respBody, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodGet,
-		Url:        common.GetApiUrl(config.Address, apiPath),
+		Url:        url,
 		TimeoutSec: 10,
 		Headers:    headers,
 	})
@@ -191,9 +206,15 @@ func CreateIpInfo(config common.Config, env string, groups []interface{}, cidrs 
 	apiPath := fmt.Sprintf("ip-envs/%s", env)
 	headers := getHeaders("application/json")
 	reqBody, _ := json.Marshal(infoMap)
+
+	url, err := common.GetApiUrl(config.Address, apiPath)
+	if err != nil {
+		*diagsPtr = append(*diagsPtr, diag.FromErr(err)[0])
+		return err
+	}
 	status, _, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodPost,
-		Url:        common.GetApiUrl(config.Address, apiPath),
+		Url:        url,
 		TimeoutSec: 10,
 		Body:       bytes.NewBuffer(reqBody),
 		Headers:    headers,
@@ -227,9 +248,14 @@ func UpdateIpInfo(config common.Config, env string, groups []interface{}, cidrs 
 	apiPath := fmt.Sprintf("ip-envs/%s", env)
 	headers := getHeaders("application/json")
 	reqBody, _ := json.Marshal(infoMap)
+	url, err := common.GetApiUrl(config.Address, apiPath)
+	if err != nil {
+		*diagsPtr = append(*diagsPtr, diag.FromErr(err)[0])
+		return err
+	}
 	status, _, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodPut,
-		Url:        common.GetApiUrl(config.Address, apiPath),
+		Url:        url,
 		TimeoutSec: 10,
 		Body:       bytes.NewBuffer(reqBody),
 		Headers:    headers,
@@ -258,9 +284,14 @@ func DeleteIpInfo(config common.Config, env string, diagsPtr *diag.Diagnostics) 
 	// request api
 	apiPath := fmt.Sprintf("ip-envs/%s", env)
 	headers := getHeaders("")
+	url, err := common.GetApiUrl(config.Address, apiPath)
+	if err != nil {
+		*diagsPtr = append(*diagsPtr, diag.FromErr(err)[0])
+		return err
+	}
 	status, _, err := common.HttpRequest(&common.HttpRequestArgs{
 		Method:     http.MethodDelete,
-		Url:        common.GetApiUrl(config.Address, apiPath),
+		Url:        url,
 		TimeoutSec: 10,
 		Headers:    headers,
 	})
