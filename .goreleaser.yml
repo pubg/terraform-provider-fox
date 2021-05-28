@@ -47,10 +47,6 @@ signs:
       - "${signature}"
       - "--detach-sign"
       - "${artifact}"
-release:
-  github:
-    owner: uanid
-    name: terraform-provider-fox
 # If you want to manually examine the release before its live, uncomment this line:
 # draft: true
 changelog:
