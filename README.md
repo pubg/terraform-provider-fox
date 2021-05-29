@@ -1,1 +1,1 @@
-# fox terraform plugin
+# Fox Terraform Provider
